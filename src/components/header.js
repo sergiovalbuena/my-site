@@ -1,42 +1,49 @@
-import * as React from "react"
-import PropTypes from "prop-types"
-import { Link } from "gatsby"
+import React from 'react'
+import Link from 'gatsby-link'
+import './Header.css'
+import logo from '../images/sv_logo.png'
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
+
+class Header extends React.Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      hasScrolled: false
+    }
+  }
+
+  componentDidMount(){
+    window.addEventListener('scroll',
+    this.handleScroll)
+  }
+
+  handleScroll = (event) => {
+    const scrollTop= window.pageYOffset
+
+    if(scrollTop > 50){
+      this.setState({hasScrolled: true})
+    }else{
+    this.setState({hasScrolled: false})
+    } 
+  }
+
+  render(){
+    return(
+      <div className={this.state.hasScrolled ? 'Header HeaderScrolled' : 'Header'}>
+        <div className="HeaderGroup">
+          <Link to="/"><img src={logo}/></Link>
+          <Link to="/courses">Courses</Link>
+          <Link to="/work">Work</Link>
+          <Link to="/aboutMe">About Me</Link>
+          <Link to="/aboutMe"><button>Contact Me</button></Link>
+    
+        </div>
+      
     </div>
-  </header>
-)
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
+    )
+  }
 }
 
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
+//<img src={require('#')}
 export default Header
